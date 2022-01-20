@@ -20,29 +20,33 @@ module.exports = class SonarQubeFormatter {
 
   print(results) {
     const issues = [];
-    for (const result of results) {
-      let relativePath = path.relative(
-        this.options.workingDir,
-        result.filePath
-      );
 
-      for (const message of result.messages) {
-        issues.push({
-          engineId: 'ember-template-lint',
-          ruleId: message.rule,
-          severity: SONARQUBE_SEVERITY[message.severity],
-          type: SONARQUBE_TYPE[message.severity],
-          primaryLocation: {
-            message: message.message,
-            filePath: relativePath,
-            textRange: {
-              startLine: message.line,
-              startColumn: message.column,
-              endLine: message.endLine,
-              endColumn: message.endColumn,
+    if (this.options.hasResultData) {
+      for (const filePath of Object.keys(results.files)) {
+        let result = results.files[filePath];
+        let relativePath = path.relative(
+          this.options.workingDir,
+          result.filePath
+        );
+
+        for (const message of result.messages) {
+          issues.push({
+            engineId: 'ember-template-lint',
+            ruleId: message.rule,
+            severity: SONARQUBE_SEVERITY[message.severity],
+            type: SONARQUBE_TYPE[message.severity],
+            primaryLocation: {
+              message: message.message,
+              filePath: relativePath,
+              textRange: {
+                startLine: message.line,
+                startColumn: message.column,
+                endLine: message.endLine,
+                endColumn: message.endColumn,
+              },
             },
-          },
-        });
+          });
+        }
       }
     }
 

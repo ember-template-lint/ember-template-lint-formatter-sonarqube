@@ -19,6 +19,47 @@ npm i @scalvert/ember-template-lint-formatter-sonarqube --save-dev
 yarn add @scalvert/ember-template-lint-formatter-sonarqube --dev
 ```
 
+Output will be in 'Generic Issue Format'.
+
+```json
+{
+  "issues": [
+    {
+      "engineId": "ember-template-lint",
+      "ruleId": "no-bare-strings",
+      "severity": "MINOR",
+      "type": "CODE_SMELL",
+      "primaryLocation": {
+        "message": "Non-translated string used",
+        "filePath": "app/templates/application.hbs",
+        "textRange": {
+          "startLine": 1,
+          "startColumn": 4,
+          "endLine": 1,
+          "endColumn": 14
+        }
+      }
+    },
+    {
+      "engineId": "ember-template-lint",
+      "ruleId": "no-bare-strings",
+      "severity": "MINOR",
+      "type": "CODE_SMELL",
+      "primaryLocation": {
+        "message": "Non-translated string used",
+        "filePath": "app/templates/application.hbs",
+        "textRange": {
+          "startLine": 1,
+          "startColumn": 25,
+          "endLine": 1,
+          "endColumn": 48
+        }
+      }
+    }
+  ]
+}
+```
+
 ## Usage
 
 ```shell

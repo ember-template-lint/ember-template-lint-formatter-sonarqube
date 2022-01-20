@@ -3,5 +3,5 @@ module.exports = {
     printBasicPrototype: false,
   },
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['/__fixtures__/'],
+  testPathIgnorePatterns: ['/__utils__/'],
 };
