@@ -1,5 +1,5 @@
 {
-  "name": "@scalvert/ember-template-lint-formatter-sonarqube",
+  "name": "ember-template-lint-formatter-sonarqube",
   "version": "1.0.0",
   "description": "An ember-template-lint formatter to output JSON in a format compatible with SonarQube external analyzer format",
   "keywords": [
