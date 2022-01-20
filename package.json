@@ -1,5 +1,5 @@
 {
-  "name": "ember-template-lint-formatter-sonarqube",
+  "name": "@scalvert/ember-template-lint-formatter-sonarqube",
   "version": "1.0.0",
   "description": "An ember-template-lint formatter to output JSON in a format compatible with SonarQube external analyzer format",
   "keywords": [
@@ -40,7 +40,8 @@
     "ember-template-lint": "^4.0.0"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "release-it": {
     "plugins": {
