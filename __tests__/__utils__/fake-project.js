@@ -60,7 +60,8 @@ module.exports = class FakeProject extends Project {
     let configFileContents =
       config === undefined
         ? DEFAULT_TEMPLATE_LINTRC
-        : `module.exports = ${JSON.stringify(config, null, 2)};`;
+        : // eslint-disable-next-line unicorn/no-null
+          `module.exports = ${JSON.stringify(config, null, 2)};`;
 
     this.files['.template-lintrc.js'] = configFileContents;
 
