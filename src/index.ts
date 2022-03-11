@@ -1,41 +1,59 @@
-const path = require('path');
+import path from 'path';
 
-const SONARQUBE_SEVERITY = {
+type PartialRecord<K extends keyof any, T> = {
+  [P in K]: T;
+};
+
+enum Severity {
+  todo = -1,
+  warning = 1,
+  error = 2,
+}
+
+interface EmberTemplateLintOptions {
+  hasResultData: true;
+  workingDirectory: string;
+}
+
+interface EmberTemplateLintResults {
+  files: { [x: string]: any };
+}
+
+const SONARQUBE_SEVERITY: PartialRecord<Severity, string> = {
   '-1': 'INFO', // todo
   1: 'MINOR', // warning
   2: 'CRITICAL', // error
 };
 
-const SONARQUBE_TYPE = {
+const SONARQUBE_TYPE: PartialRecord<Severity, string> = {
   '-1': 'CODE_SMELL', // todo
   1: 'CODE_SMELL', // warning
   2: 'BUG', // error
 };
 
-module.exports = class SonarQubeFormatter {
+//@ts-ignore
+export = class SonarQubeFormatter {
   defaultFileExtension = 'json';
+  options: EmberTemplateLintOptions;
 
-  constructor(options = {}) {
+  constructor(options: EmberTemplateLintOptions) {
     this.options = options;
   }
 
-  format(results) {
+  format(results: EmberTemplateLintResults) {
     const issues = [];
 
     if (this.options.hasResultData) {
       for (const filePath of Object.keys(results.files)) {
         let result = results.files[filePath];
-        let relativePath = path.relative(
-          this.options.workingDirectory,
-          result.filePath
-        );
+        let relativePath = path.relative(this.options.workingDirectory, result.filePath);
 
         for (const message of result.messages) {
           issues.push({
             engineId: 'ember-template-lint',
             ruleId: message.rule,
-            severity: SONARQUBE_SEVERITY[message.severity],
-            type: SONARQUBE_TYPE[message.severity],
+            severity: SONARQUBE_SEVERITY[message.severity as Severity],
+            type: SONARQUBE_TYPE[message.severity as Severity],
             primaryLocation: {
               message: message.message,
               filePath: relativePath,

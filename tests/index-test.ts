@@ -3,11 +3,9 @@ import Project from './utils/fake-project';
 import { createBinTester } from '@scalvert/bin-tester';
 
 describe('SonarQube Formatter', () => {
-  let project;
+  let project: Project;
   let { setupProject, teardownProject, runBin } = createBinTester({
-    binPath: require.resolve(
-      '../node_modules/ember-template-lint/bin/ember-template-lint.js'
-    ),
+    binPath: require.resolve('../node_modules/ember-template-lint/bin/ember-template-lint.js'),
     staticArgs: ['.', '--format', require.resolve('..')],
     projectConstructor: Project,
   });
@@ -21,12 +19,12 @@ describe('SonarQube Formatter', () => {
   });
 
   it('can format output from no results', async () => {
-    project.setConfig({
+    await project.setConfig({
       rules: {
         'no-bare-strings': 'warn',
       },
     });
-    project.write({
+    await project.writeJSON({
       app: {
         templates: {
           'application.hbs': '<div></div>',
@@ -44,16 +42,15 @@ describe('SonarQube Formatter', () => {
   });
 
   it('can format output when there are warnings', async () => {
-    project.setConfig({
+    await project.setConfig({
       rules: {
         'no-bare-strings': 'warn',
       },
     });
-    project.write({
+    await project.writeJSON({
       app: {
         templates: {
-          'application.hbs':
-            '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
+          'application.hbs': '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
           components: {
             'foo.hbs': '{{fooData}}',
           },
@@ -104,16 +101,15 @@ describe('SonarQube Formatter', () => {
   });
 
   it('can format output when there are errors', async () => {
-    project.setConfig({
+    await project.setConfig({
       rules: {
         'no-bare-strings': 'error',
       },
     });
-    project.write({
+    await project.writeJSON({
       app: {
         templates: {
-          'application.hbs':
-            '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
+          'application.hbs': '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
           components: {
             'foo.hbs': '{{fooData}}',
           },

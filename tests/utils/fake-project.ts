@@ -1,10 +1,10 @@
 'use strict';
 
-const path = require('path');
+import { join } from 'node:path';
+import { createRequire } from 'node:module';
+import { BinTesterProject } from '@scalvert/bin-tester';
 
-const Project = require('fixturify-project');
-
-const ROOT = process.cwd();
+const require = createRequire(import.meta.url);
 
 // this is the default .editorconfig file for new ember-cli apps, taken from:
 // https://github.com/ember-cli/ember-new-output/blob/stable/.editorconfig
@@ -40,7 +40,7 @@ module.exports = {
 };
 `;
 
-module.exports = class FakeProject extends Project {
+export default class FakeProject extends BinTesterProject {
   static defaultSetup() {
     let project = new this();
 
@@ -52,11 +52,11 @@ module.exports = class FakeProject extends Project {
     return project;
   }
 
-  constructor(name = 'fake-project', ...arguments_) {
+  constructor(name = 'fake-project', ...arguments_: any[]) {
     super(name, ...arguments_);
   }
 
-  setConfig(config) {
+  async setConfig(config: Record<string, any>) {
     let configFileContents =
       config === undefined
         ? DEFAULT_TEMPLATE_LINTRC
@@ -65,44 +65,16 @@ module.exports = class FakeProject extends Project {
 
     this.files['.template-lintrc.js'] = configFileContents;
 
-    this.writeSync();
+    await this.write();
   }
 
   getConfig() {
-    return require(path.join(this.baseDir, '.template-lintrc'));
+    return require(join(this.baseDir, '.template-lintrc'));
   }
 
-  setEditorConfig(value = DEFAULT_EDITOR_CONFIG) {
+  async setEditorConfig(value = DEFAULT_EDITOR_CONFIG) {
     this.files['.editorconfig'] = value;
 
-    this.writeSync();
+    await this.write();
   }
-
-  path(subPath) {
-    return subPath ? path.join(this.baseDir, subPath) : this.baseDir;
-  }
-
-  // behave like a TempDir from broccoli-test-helper
-  // eslint-disable-next-line unicorn/prevent-abbreviations
-  write(dirJSON) {
-    Object.assign(this.files, dirJSON);
-    this.writeSync();
-  }
-
-  chdir() {
-    this._dirChanged = true;
-
-    // ensure the directory structure is created initially
-    this.writeSync();
-
-    process.chdir(this.baseDir);
-  }
-
-  dispose() {
-    if (this._dirChanged) {
-      process.chdir(ROOT);
-    }
-
-    return super.dispose();
-  }
-};
+}
