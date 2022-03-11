@@ -1,15 +1,22 @@
-const execa = require('execa');
 const Project = require('./__utils__/fake-project');
+const { createBinTester } = require('@scalvert/bin-tester');
 
 describe('SonarQube Formatter', () => {
   let project;
+  let { setupProject, teardownProject, runBin } = createBinTester({
+    binPath: require.resolve(
+      '../node_modules/ember-template-lint/bin/ember-template-lint.js'
+    ),
+    staticArgs: ['.', '--format', require.resolve('..')],
+    projectConstructor: Project,
+  });
 
-  beforeEach(() => {
-    project = new Project('fake-project');
+  beforeEach(async () => {
+    project = await setupProject();
   });
 
   afterEach(() => {
-    // project.dispose();
+    teardownProject();
   });
 
   it('can format output from no results', async () => {
@@ -26,7 +33,7 @@ describe('SonarQube Formatter', () => {
       },
     });
 
-    let result = await emberTemplateLint();
+    let result = await runBin();
 
     expect(result.stdout).toMatchInlineSnapshot(`
       "{
@@ -53,7 +60,7 @@ describe('SonarQube Formatter', () => {
       },
     });
 
-    let result = await emberTemplateLint();
+    let result = await runBin();
 
     expect(result.stdout).toMatchInlineSnapshot(`
       "{
@@ -113,7 +120,7 @@ describe('SonarQube Formatter', () => {
       },
     });
 
-    let result = await emberTemplateLint();
+    let result = await runBin();
 
     expect(result.stdout).toMatchInlineSnapshot(`
       "{
@@ -154,37 +161,4 @@ describe('SonarQube Formatter', () => {
       }"
     `);
   });
-
-  function emberTemplateLint(argumentsOrOptions, options) {
-    if (arguments.length > 0) {
-      if (arguments.length === 1) {
-        options = Array.isArray(argumentsOrOptions) ? {} : argumentsOrOptions;
-      }
-    } else {
-      argumentsOrOptions = [];
-      options = {};
-    }
-
-    const mergedOptions = Object.assign(
-      {
-        reject: false,
-        cwd: project.baseDir,
-      },
-      options
-    );
-
-    return execa(
-      process.execPath,
-      [
-        require.resolve(
-          '../node_modules/ember-template-lint/bin/ember-template-lint.js'
-        ),
-        '.',
-        '--format',
-        require.resolve('..'),
-        ...argumentsOrOptions,
-      ],
-      mergedOptions
-    );
-  }
 });
