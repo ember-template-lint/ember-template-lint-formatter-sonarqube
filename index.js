@@ -13,19 +13,20 @@ const SONARQUBE_TYPE = {
 };
 
 module.exports = class SonarQubeFormatter {
+  defaultFileExtension = 'json';
+
   constructor(options = {}) {
     this.options = options;
-    this.console = options.console || console;
   }
 
-  print(results) {
+  format(results) {
     const issues = [];
 
     if (this.options.hasResultData) {
       for (const filePath of Object.keys(results.files)) {
         let result = results.files[filePath];
         let relativePath = path.relative(
-          this.options.workingDir,
+          this.options.workingDirectory,
           result.filePath
         );
 
@@ -51,6 +52,6 @@ module.exports = class SonarQubeFormatter {
     }
 
     // eslint-disable-next-line unicorn/no-null
-    this.console.log(JSON.stringify({ issues }, null, 2));
+    return JSON.stringify({ issues }, null, 2);
   }
 };

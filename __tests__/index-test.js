@@ -1,65 +1,53 @@
-const execa = require("execa");
-const stripAnsi = require("strip-ansi");
-const Project = require("./__utils__/fake-project");
-const SonarQubeFormatter = require("../index");
+const execa = require('execa');
+const Project = require('./__utils__/fake-project');
 
-class MockConsole {
-  buffer = [];
-
-  get lines() {
-    return this.buffer.map((message) => {
-      return stripAnsi(message).trim();
-    });
-  }
-
-  log(message) {
-    this.buffer.push(message);
-  }
-
-  toString() {
-    return stripAnsi(this.buffer.join("\n"));
-  }
-}
-
-describe("SonarQube Formatter", () => {
+describe('SonarQube Formatter', () => {
   let project;
 
   beforeEach(() => {
-    project = new Project("fake-project");
+    project = new Project('fake-project');
   });
 
   afterEach(() => {
     // project.dispose();
   });
 
-  it("can format output from no results", () => {
-    let mockConsole = new MockConsole();
-    let formatter = new SonarQubeFormatter({
-      console: mockConsole,
+  it('can format output from no results', async () => {
+    project.setConfig({
+      rules: {
+        'no-bare-strings': 'warn',
+      },
+    });
+    project.write({
+      app: {
+        templates: {
+          'application.hbs': '<div></div>',
+        },
+      },
     });
 
-    formatter.print({});
+    let result = await emberTemplateLint();
 
-    expect(mockConsole.toString()).toMatchInlineSnapshot(`
+    expect(result.stdout).toMatchInlineSnapshot(`
       "{
         \\"issues\\": []
       }"
     `);
   });
 
-  it("can format output when there are warnings", async () => {
+  it('can format output when there are warnings', async () => {
     project.setConfig({
       rules: {
-        "no-bare-strings": "warn",
+        'no-bare-strings': 'warn',
       },
     });
     project.write({
       app: {
         templates: {
-          "application.hbs":
-            "<h2>Here too!!</h2> <div>Bare strings are bad...</div>",
+          'application.hbs':
+            '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
           components: {
-            "foo.hbs": "{{fooData}}",
+            'foo.hbs': '{{fooData}}',
           },
         },
       },
@@ -107,19 +95,19 @@ describe("SonarQube Formatter", () => {
     `);
   });
 
-  it("can format output when there are errors", async () => {
+  it('can format output when there are errors', async () => {
     project.setConfig({
       rules: {
-        "no-bare-strings": "error",
+        'no-bare-strings': 'error',
       },
     });
     project.write({
       app: {
         templates: {
-          "application.hbs":
-            "<h2>Here too!!</h2> <div>Bare strings are bad...</div>",
+          'application.hbs':
+            '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
           components: {
-            "foo.hbs": "{{fooData}}",
+            'foo.hbs': '{{fooData}}',
           },
         },
       },
@@ -189,11 +177,11 @@ describe("SonarQube Formatter", () => {
       process.execPath,
       [
         require.resolve(
-          "../node_modules/ember-template-lint/bin/ember-template-lint.js"
+          '../node_modules/ember-template-lint/bin/ember-template-lint.js'
         ),
-        ".",
-        "--format",
-        require.resolve(".."),
+        '.',
+        '--format',
+        require.resolve('..'),
         ...argumentsOrOptions,
       ],
       mergedOptions
