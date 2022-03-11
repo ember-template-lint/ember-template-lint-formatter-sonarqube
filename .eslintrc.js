@@ -1,11 +1,9 @@
 module.exports = {
   parser: '@babel/eslint-parser',
-  plugins: ['node', 'jest', 'prettier'],
+  plugins: ['node', 'prettier'],
   extends: [
     'eslint:recommended',
     'plugin:node/recommended',
-    'plugin:jest/recommended',
-    'plugin:jest/style',
     'plugin:unicorn/recommended',
     'prettier',
   ],
@@ -24,9 +22,12 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['__tests__/**/*.js'],
-      env: {
-        jest: true,
+      files: ['tests/**/*.js'],
+      parserOptions: {
+        sourceType: 'module',
+      },
+      rules: {
+        'node/no-unsupported-features/es-syntax': 'off',
       },
     },
   ],

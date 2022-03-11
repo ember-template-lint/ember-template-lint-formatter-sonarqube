@@ -1,5 +1,6 @@
-const Project = require('./__utils__/fake-project');
-const { createBinTester } = require('@scalvert/bin-tester');
+import { describe, beforeEach, afterEach, it, expect } from 'vitest';
+import Project from './utils/fake-project';
+import { createBinTester } from '@scalvert/bin-tester';
 
 describe('SonarQube Formatter', () => {
   let project;
