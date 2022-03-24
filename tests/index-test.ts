@@ -1,13 +1,13 @@
 import { describe, beforeEach, afterEach, it, expect } from 'vitest';
-import Project from './utils/fake-project';
+import EmberTemplateLintProject from './utils/ember-template-lint-project';
 import { createBinTester } from '@scalvert/bin-tester';
 
 describe('SonarQube Formatter', () => {
-  let project: Project;
+  let project: EmberTemplateLintProject;
   let { setupProject, teardownProject, runBin } = createBinTester({
     binPath: require.resolve('../node_modules/ember-template-lint/bin/ember-template-lint.js'),
     staticArgs: ['.', '--format', require.resolve('..')],
-    projectConstructor: Project,
+    createProject: () => new EmberTemplateLintProject(),
   });
 
   beforeEach(async () => {

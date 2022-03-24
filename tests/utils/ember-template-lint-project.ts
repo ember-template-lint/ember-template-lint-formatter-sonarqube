@@ -40,7 +40,7 @@ module.exports = {
 };
 `;
 
-export default class FakeProject extends BinTesterProject {
+export default class EmberTemplateLintProject extends BinTesterProject {
   static defaultSetup() {
     let project = new this();
 
