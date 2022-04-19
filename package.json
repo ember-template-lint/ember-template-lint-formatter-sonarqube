@@ -28,14 +28,14 @@
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "lint": "eslint .",
-    "prepare": "npm run build",    
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "test": "FORCE_COLOR=1 npm-run-all lint test:*",
     "test:vitest": "vitest run"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
-    "@scalvert/bin-tester": "^0.3.0",
+    "@scalvert/bin-tester": "^2.0.0",
     "ember-template-lint": "^4.3.0",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
