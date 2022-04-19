@@ -41,17 +41,6 @@ module.exports = {
 `;
 
 export default class EmberTemplateLintProject extends BinTesterProject {
-  static defaultSetup() {
-    let project = new this();
-
-    project.files['.template-lintrc.js'] = DEFAULT_TEMPLATE_LINTRC;
-    project.files['.editorconfig'] = DEFAULT_EDITOR_CONFIG;
-
-    project.writeSync();
-
-    return project;
-  }
-
   constructor(name = 'fake-project', ...arguments_: any[]) {
     super(name, ...arguments_);
   }

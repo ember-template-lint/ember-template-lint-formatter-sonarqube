@@ -7,7 +7,7 @@ describe('SonarQube Formatter', () => {
   let { setupProject, teardownProject, runBin } = createBinTester({
     binPath: require.resolve('../node_modules/ember-template-lint/bin/ember-template-lint.js'),
     staticArgs: ['.', '--format', require.resolve('..')],
-    createProject: () => new EmberTemplateLintProject(),
+    createProject: async () => new EmberTemplateLintProject(),
   });
 
   beforeEach(async () => {
@@ -24,7 +24,7 @@ describe('SonarQube Formatter', () => {
         'no-bare-strings': 'warn',
       },
     });
-    await project.writeJSON({
+    await project.write({
       app: {
         templates: {
           'application.hbs': '<div></div>',
@@ -47,7 +47,7 @@ describe('SonarQube Formatter', () => {
         'no-bare-strings': 'warn',
       },
     });
-    await project.writeJSON({
+    await project.write({
       app: {
         templates: {
           'application.hbs': '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
@@ -106,7 +106,7 @@ describe('SonarQube Formatter', () => {
         'no-bare-strings': 'error',
       },
     });
-    await project.writeJSON({
+    await project.write({
       app: {
         templates: {
           'application.hbs': '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
