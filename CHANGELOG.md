@@ -1,4 +1,18 @@
 
+
+## v2.0.1 (2022-04-28)
+
+#### :bug: Bug Fix
+* [#52](https://github.com/ember-template-lint/ember-template-lint-formatter-sonarqube/pull/52) Fixes paths to be absolute as required by SonarQube ([@scalvert](https://github.com/scalvert))
+
+#### :house: Internal
+* [#54](https://github.com/ember-template-lint/ember-template-lint-formatter-sonarqube/pull/54) Fixes tests to handle absolute paths in results ([@scalvert](https://github.com/scalvert))
+* [#34](https://github.com/ember-template-lint/ember-template-lint-formatter-sonarqube/pull/34) Updating to latest version of bin-tester ([@scalvert](https://github.com/scalvert))
+
+#### Committers: 1
+- Steve Calvert ([@scalvert](https://github.com/scalvert))
+
+
 ## v2.0.0 (2022-03-11)
 
 #### :boom: Breaking Change
