@@ -70,7 +70,7 @@ describe('SonarQube Formatter', () => {
             \\"type\\": \\"CODE_SMELL\\",
             \\"primaryLocation\\": {
               \\"message\\": \\"Non-translated string used\\",
-              \\"filePath\\": \\"app/templates/application.hbs\\",
+              \\"filePath\\": \\"/private/var/folders/5m/4ybwhyvn3979lm2223q_q22c000gyd/T/tmp-83160IQlqAstCf8BJ/app/templates/application.hbs\\",
               \\"textRange\\": {
                 \\"startLine\\": 1,
                 \\"startColumn\\": 4,
@@ -86,7 +86,7 @@ describe('SonarQube Formatter', () => {
             \\"type\\": \\"CODE_SMELL\\",
             \\"primaryLocation\\": {
               \\"message\\": \\"Non-translated string used\\",
-              \\"filePath\\": \\"app/templates/application.hbs\\",
+              \\"filePath\\": \\"/private/var/folders/5m/4ybwhyvn3979lm2223q_q22c000gyd/T/tmp-83160IQlqAstCf8BJ/app/templates/application.hbs\\",
               \\"textRange\\": {
                 \\"startLine\\": 1,
                 \\"startColumn\\": 25,
@@ -129,7 +129,7 @@ describe('SonarQube Formatter', () => {
             \\"type\\": \\"BUG\\",
             \\"primaryLocation\\": {
               \\"message\\": \\"Non-translated string used\\",
-              \\"filePath\\": \\"app/templates/application.hbs\\",
+              \\"filePath\\": \\"/private/var/folders/5m/4ybwhyvn3979lm2223q_q22c000gyd/T/tmp-83160m1PGmFBDlaCq/app/templates/application.hbs\\",
               \\"textRange\\": {
                 \\"startLine\\": 1,
                 \\"startColumn\\": 4,
@@ -145,7 +145,7 @@ describe('SonarQube Formatter', () => {
             \\"type\\": \\"BUG\\",
             \\"primaryLocation\\": {
               \\"message\\": \\"Non-translated string used\\",
-              \\"filePath\\": \\"app/templates/application.hbs\\",
+              \\"filePath\\": \\"/private/var/folders/5m/4ybwhyvn3979lm2223q_q22c000gyd/T/tmp-83160m1PGmFBDlaCq/app/templates/application.hbs\\",
               \\"textRange\\": {
                 \\"startLine\\": 1,
                 \\"startColumn\\": 25,
