@@ -46,7 +46,9 @@ export = class SonarQubeFormatter {
     if (this.options.hasResultData) {
       for (const filePath of Object.keys(results.files)) {
         let result = results.files[filePath];
-        let relativePath = path.relative(this.options.workingDirectory, result.filePath);
+        let absolutePath = path.isAbsolute(result.filePath)
+          ? result.filePath
+          : path.resolve(this.options.workingDirectory, result.filePath);
 
         for (const message of result.messages) {
           issues.push({
@@ -56,7 +58,7 @@ export = class SonarQubeFormatter {
             type: SONARQUBE_TYPE[message.severity as Severity],
             primaryLocation: {
               message: message.message,
-              filePath: relativePath,
+              filePath: absolutePath,
               textRange: {
                 startLine: message.line,
                 startColumn: message.column,
