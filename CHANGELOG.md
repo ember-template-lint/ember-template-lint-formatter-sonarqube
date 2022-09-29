@@ -1,5 +1,15 @@
 
 
+
+## v2.1.0 (2022-09-29)
+
+#### :rocket: Enhancement
+* [#89](https://github.com/ember-template-lint/ember-template-lint-formatter-sonarqube/pull/89) Generate a template json file when there is no output from ETL ([@zhanwang626](https://github.com/zhanwang626))
+
+#### Committers: 1
+- Zhan Wang ([@zhanwang626](https://github.com/zhanwang626))
+
+
 ## v2.0.1 (2022-04-28)
 
 #### :bug: Bug Fix
