@@ -36,7 +36,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
     "@scalvert/bin-tester": "^2.0.0",
-    "ember-template-lint": "^4.3.0",
+    "ember-template-lint": "^5.2.0",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-node": "^11.1.0",
@@ -55,7 +55,7 @@
     "vitest": "^0.25.2"
   },
   "peerDependencies": {
-    "ember-template-lint": "^4.3.0"
+    "ember-template-lint": "^5.2.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
