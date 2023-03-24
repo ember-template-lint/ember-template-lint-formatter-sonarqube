@@ -1,6 +1,16 @@
 
 
 
+
+## v2.1.1 (2023-03-24)
+
+#### :bug: Bug Fix
+* [#101](https://github.com/ember-template-lint/ember-template-lint-formatter-sonarqube/pull/101) Fixes logic to correctly output relative paths ([@scalvert](https://github.com/scalvert))
+
+#### Committers: 1
+- Steve Calvert ([@scalvert](https://github.com/scalvert))
+
+
 ## v2.1.0 (2022-09-29)
 
 #### :rocket: Enhancement
