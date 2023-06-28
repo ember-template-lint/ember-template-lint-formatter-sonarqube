@@ -49,27 +49,26 @@ export = class SonarQubeFormatter {
         ? path.resolve(this.options.workingDirectory, filePath)
         : filePath;
 
-      for (const message of result.messages) {
-        issues.push({
-          engineId: 'ember-template-lint',
-          ruleId: message.rule,
-          severity: SONARQUBE_SEVERITY[message.severity as Severity],
-          type: SONARQUBE_TYPE[message.severity as Severity],
-          primaryLocation: {
-            message: message.message,
-            filePath: absolutePath,
-            textRange: {
-              startLine: message.line,
-              startColumn: message.column,
-              endLine: message.endLine,
-              endColumn: message.endColumn,
+        for (const message of result.messages) {
+          issues.push({
+            engineId: 'ember-template-lint',
+            ruleId: message.rule,
+            severity: SONARQUBE_SEVERITY[message.severity as Severity],
+            type: SONARQUBE_TYPE[message.severity as Severity],
+            primaryLocation: {
+              message: message.message,
+              filePath: absolutePath,
+              textRange: {
+                startLine: message.line || 1,
+                startColumn: message.column,
+                endLine: message.endLine,
+                endColumn: message.endColumn,
+              },
             },
-          },
-        });
+          });
+        }
       }
-    }
-
-    // eslint-disable-next-line unicorn/no-null
+    
     return JSON.stringify({ issues }, null, 2);
   }
 };
