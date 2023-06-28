@@ -43,12 +43,11 @@ export = class SonarQubeFormatter {
   format(results: EmberTemplateLintResults) {
     const issues = [];
 
-    if (this.options.hasResultData) {
-      for (const filePath of Object.keys(results.files)) {
-        let result = results.files[filePath];
-        let absolutePath = path.isAbsolute(result.filePath)
-          ? result.filePath
-          : path.resolve(this.options.workingDirectory, result.filePath);
+    for (const filePath of Object.keys(results.files)) {
+      let result = results.files[filePath];
+      let absolutePath = path.isAbsolute(filePath)
+        ? path.resolve(this.options.workingDirectory, filePath)
+        : filePath;
 
         for (const message of result.messages) {
           issues.push({

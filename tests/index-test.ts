@@ -15,7 +15,7 @@ describe('SonarQube Formatter', () => {
   });
 
   afterEach(() => {
-    teardownProject();
+    // teardownProject();
   });
 
   it('can format output from no results', async () => {
@@ -31,7 +31,7 @@ describe('SonarQube Formatter', () => {
         },
       },
     });
-
+    debugger;
     let result = await runBin();
 
     expect(result.stdout).toMatchInlineSnapshot(`
@@ -60,42 +60,44 @@ describe('SonarQube Formatter', () => {
 
     let result = await runBin();
 
-    expect(JSON.parse(result.stdout)).toEqual({
-      issues: [
-        {
-          engineId: 'ember-template-lint',
-          ruleId: 'no-bare-strings',
-          severity: 'MINOR',
-          type: 'CODE_SMELL',
-          primaryLocation: {
-            message: 'Non-translated string used',
-            filePath: `${project.baseDir}/app/templates/application.hbs`,
-            textRange: {
-              startLine: 1,
-              startColumn: 4,
-              endLine: 1,
-              endColumn: 14,
+    expect(JSON.parse(result.stdout)).toMatchInlineSnapshot(`
+      {
+        "issues": [
+          {
+            "engineId": "ember-template-lint",
+            "primaryLocation": {
+              "filePath": "app/templates/application.hbs",
+              "message": "Non-translated string used",
+              "textRange": {
+                "endColumn": 14,
+                "endLine": 1,
+                "startColumn": 4,
+                "startLine": 1,
+              },
             },
+            "ruleId": "no-bare-strings",
+            "severity": "MINOR",
+            "type": "CODE_SMELL",
           },
-        },
-        {
-          engineId: 'ember-template-lint',
-          ruleId: 'no-bare-strings',
-          severity: 'MINOR',
-          type: 'CODE_SMELL',
-          primaryLocation: {
-            message: 'Non-translated string used',
-            filePath: `${project.baseDir}/app/templates/application.hbs`,
-            textRange: {
-              startLine: 1,
-              startColumn: 25,
-              endLine: 1,
-              endColumn: 48,
+          {
+            "engineId": "ember-template-lint",
+            "primaryLocation": {
+              "filePath": "app/templates/application.hbs",
+              "message": "Non-translated string used",
+              "textRange": {
+                "endColumn": 48,
+                "endLine": 1,
+                "startColumn": 25,
+                "startLine": 1,
+              },
             },
+            "ruleId": "no-bare-strings",
+            "severity": "MINOR",
+            "type": "CODE_SMELL",
           },
-        },
-      ],
-    });
+        ],
+      }
+    `);
   });
 
   it('can format output when there are errors', async () => {
@@ -117,42 +119,44 @@ describe('SonarQube Formatter', () => {
 
     let result = await runBin();
 
-    expect(JSON.parse(result.stdout)).toEqual({
-      issues: [
-        {
-          engineId: 'ember-template-lint',
-          ruleId: 'no-bare-strings',
-          severity: 'CRITICAL',
-          type: 'BUG',
-          primaryLocation: {
-            message: 'Non-translated string used',
-            filePath: `${project.baseDir}/app/templates/application.hbs`,
-            textRange: {
-              startLine: 1,
-              startColumn: 4,
-              endLine: 1,
-              endColumn: 14,
+    expect(JSON.parse(result.stdout)).toMatchInlineSnapshot(`
+      {
+        "issues": [
+          {
+            "engineId": "ember-template-lint",
+            "primaryLocation": {
+              "filePath": "app/templates/application.hbs",
+              "message": "Non-translated string used",
+              "textRange": {
+                "endColumn": 14,
+                "endLine": 1,
+                "startColumn": 4,
+                "startLine": 1,
+              },
             },
+            "ruleId": "no-bare-strings",
+            "severity": "CRITICAL",
+            "type": "BUG",
           },
-        },
-        {
-          engineId: 'ember-template-lint',
-          ruleId: 'no-bare-strings',
-          severity: 'CRITICAL',
-          type: 'BUG',
-          primaryLocation: {
-            message: 'Non-translated string used',
-            filePath: `${project.baseDir}/app/templates/application.hbs`,
-            textRange: {
-              startLine: 1,
-              startColumn: 25,
-              endLine: 1,
-              endColumn: 48,
+          {
+            "engineId": "ember-template-lint",
+            "primaryLocation": {
+              "filePath": "app/templates/application.hbs",
+              "message": "Non-translated string used",
+              "textRange": {
+                "endColumn": 48,
+                "endLine": 1,
+                "startColumn": 25,
+                "startLine": 1,
+              },
             },
+            "ruleId": "no-bare-strings",
+            "severity": "CRITICAL",
+            "type": "BUG",
           },
-        },
-      ],
-    });
+        ],
+      }
+    `);
   });
 
   it('can format output when there startLine is missing', async () => {

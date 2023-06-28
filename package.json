@@ -1,6 +1,6 @@
 {
   "name": "ember-template-lint-formatter-sonarqube",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "description": "An ember-template-lint formatter to output JSON in a format compatible with SonarQube external analyzer format",
   "keywords": [
     "ember-template-lint"
@@ -52,7 +52,7 @@
     "tsup": "^5.12.1",
     "typescript": "^4.5.4",
     "vite": "^2.8.6",
-    "vitest": "^0.9.4"
+    "vitest": "^0.25.2"
   },
   "peerDependencies": {
     "ember-template-lint": "^4.3.0"
