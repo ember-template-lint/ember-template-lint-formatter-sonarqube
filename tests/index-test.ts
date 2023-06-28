@@ -2,6 +2,8 @@ import { describe, beforeEach, afterEach, it, expect } from 'vitest';
 import EmberTemplateLintProject from './utils/ember-template-lint-project';
 import { createBinTester } from '@scalvert/bin-tester';
 
+const formatterPath = require.resolve('..');
+
 describe('SonarQube Formatter', () => {
   let project: EmberTemplateLintProject;
   let { setupProject, teardownProject, runBin } = createBinTester({
@@ -14,7 +16,7 @@ describe('SonarQube Formatter', () => {
   });
 
   afterEach(() => {
-    // teardownProject();
+    teardownProject();
   });
 
   it('can format output from no results', async () => {
@@ -31,7 +33,7 @@ describe('SonarQube Formatter', () => {
       },
     });
 
-    let result = await runBin('.', '--format', require.resolve('..'));
+    let result = await runBin('.', '--format', formatterPath);
 
     expect(result.stdout).toMatchInlineSnapshot(`
       "{
@@ -57,7 +59,7 @@ describe('SonarQube Formatter', () => {
       },
     });
 
-    let result = await runBin('.', '--format', require.resolve('..'));
+    let result = await runBin('.', '--format', formatterPath);
 
     expect(JSON.parse(result.stdout)).toMatchInlineSnapshot(`
       {
@@ -116,7 +118,7 @@ describe('SonarQube Formatter', () => {
       },
     });
 
-    let result = await runBin('.', '--format', require.resolve('..'));
+    let result = await runBin('.', '--format', formatterPath);
 
     expect(JSON.parse(result.stdout)).toMatchInlineSnapshot(`
       {
@@ -186,7 +188,7 @@ describe('SonarQube Formatter', () => {
     });
 
     // run normally with --no-clean-todo and expect an error for not running --fix
-    let result = await runBin('.', '--no-clean-todo', '--format', require.resolve('..'));
+    let result = await runBin('.', '--no-clean-todo', '--format', formatterPath);
 
     expect(JSON.parse(result.stdout)).toMatchInlineSnapshot(`
       {
