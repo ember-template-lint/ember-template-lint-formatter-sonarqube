@@ -6,7 +6,7 @@ describe('SonarQube Formatter', () => {
   let project: EmberTemplateLintProject;
   let { setupProject, teardownProject, runBin } = createBinTester({
     binPath: require.resolve('../node_modules/ember-template-lint/bin/ember-template-lint.js'),
-    staticArgs: ['.', '--format', require.resolve('..')],
+    staticArgs: ['.', '--no-clean-todo', '--format', require.resolve('..')],
     createProject: async () => new EmberTemplateLintProject(),
   });
 
@@ -148,6 +148,43 @@ describe('SonarQube Formatter', () => {
               startColumn: 25,
               endLine: 1,
               endColumn: 48,
+            },
+          },
+        },
+      ],
+    });
+  });
+
+  it('can format output when there startLine is missing', async () => {
+    await project.setConfig({
+      rules: {
+        'no-bare-strings': 'error',
+      },
+    });
+
+    await project.write({
+      app: {
+        templates: {
+          'application.hbs': '<div></div>',
+        },
+      },
+      '.lint-todo': 'add|ember-template-lint|no-bare-strings|1|5|1|5|70c881d4a26984ddce795f6f71817c9cf4480e79|1687824000000|1690416000000|1693008000000|app/templates/application.hbs',
+    });
+
+    let result = await runBin();
+
+    expect(JSON.parse(result.stdout)).toEqual({
+      issues: [
+        {
+          engineId: 'ember-template-lint',
+          ruleId: 'invalid-todo-violation-rule',
+          severity: 'CRITICAL',
+          type: 'BUG',
+          primaryLocation: {
+            message: 'Todo violation passes `no-bare-strings` rule. Please run `npx ember-template-lint app/templates/application.hbs --clean-todo` to remove this todo from the todo list.',
+            filePath: `${project.baseDir}/app/templates/application.hbs`,
+            textRange: {
+              startLine: 1,
             },
           },
         },

@@ -60,7 +60,7 @@ export = class SonarQubeFormatter {
               message: message.message,
               filePath: absolutePath,
               textRange: {
-                startLine: message.line,
+                startLine: message.line || 1,
                 startColumn: message.column,
                 endLine: message.endLine,
                 endColumn: message.endColumn,
