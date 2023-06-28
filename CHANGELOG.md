@@ -2,6 +2,16 @@
 
 
 
+
+## v2.1.2 (2023-06-28)
+
+#### :bug: Bug Fix
+* [#131](https://github.com/ember-template-lint/ember-template-lint-formatter-sonarqube/pull/131) bug: Add default startLine value when todo is outdated ([@zhanwang626](https://github.com/zhanwang626))
+
+#### Committers: 1
+- Zhan Wang ([@zhanwang626](https://github.com/zhanwang626))
+
+
 ## v2.1.1 (2023-03-24)
 
 #### :bug: Bug Fix
