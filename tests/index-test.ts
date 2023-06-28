@@ -6,7 +6,6 @@ describe('SonarQube Formatter', () => {
   let project: EmberTemplateLintProject;
   let { setupProject, teardownProject, runBin } = createBinTester({
     binPath: require.resolve('../node_modules/ember-template-lint/bin/ember-template-lint.js'),
-    staticArgs: ['.', '--no-clean-todo', '--format', require.resolve('..')],
     createProject: async () => new EmberTemplateLintProject(),
   });
 
@@ -31,8 +30,8 @@ describe('SonarQube Formatter', () => {
         },
       },
     });
-    debugger;
-    let result = await runBin();
+
+    let result = await runBin('.', '--format', require.resolve('..'));
 
     expect(result.stdout).toMatchInlineSnapshot(`
       "{
@@ -58,7 +57,7 @@ describe('SonarQube Formatter', () => {
       },
     });
 
-    let result = await runBin();
+    let result = await runBin('.', '--format', require.resolve('..'));
 
     expect(JSON.parse(result.stdout)).toMatchInlineSnapshot(`
       {
@@ -117,7 +116,7 @@ describe('SonarQube Formatter', () => {
       },
     });
 
-    let result = await runBin();
+    let result = await runBin('.', '--format', require.resolve('..'));
 
     expect(JSON.parse(result.stdout)).toMatchInlineSnapshot(`
       {
@@ -169,30 +168,57 @@ describe('SonarQube Formatter', () => {
     await project.write({
       app: {
         templates: {
+          'application.hbs': '<h2>Here too!!</h2> <div>Bare strings are bad...</div>',
+        },
+      },
+    });
+
+    // generate todo based on existing errors
+    await runBin('.', '--update-todo');
+
+    // mimic fixing the error manually via user interaction
+    await project.write({
+      app: {
+        templates: {
           'application.hbs': '<div></div>',
         },
       },
-      '.lint-todo': 'add|ember-template-lint|no-bare-strings|1|5|1|5|70c881d4a26984ddce795f6f71817c9cf4480e79|1687824000000|1690416000000|1693008000000|app/templates/application.hbs',
     });
 
-    let result = await runBin();
+    // run normally with --no-clean-todo and expect an error for not running --fix
+    let result = await runBin('.', '--no-clean-todo', '--format', require.resolve('..'));
 
-    expect(JSON.parse(result.stdout)).toEqual({
-      issues: [
-        {
-          engineId: 'ember-template-lint',
-          ruleId: 'invalid-todo-violation-rule',
-          severity: 'CRITICAL',
-          type: 'BUG',
-          primaryLocation: {
-            message: 'Todo violation passes `no-bare-strings` rule. Please run `npx ember-template-lint app/templates/application.hbs --clean-todo` to remove this todo from the todo list.',
-            filePath: `${project.baseDir}/app/templates/application.hbs`,
-            textRange: {
-              startLine: 1,
+    expect(JSON.parse(result.stdout)).toMatchInlineSnapshot(`
+      {
+        "issues": [
+          {
+            "engineId": "ember-template-lint",
+            "primaryLocation": {
+              "filePath": "app/templates/application.hbs",
+              "message": "Todo violation passes \`no-bare-strings\` rule. Please run \`npx ember-template-lint app/templates/application.hbs --clean-todo\` to remove this todo from the todo list.",
+              "textRange": {
+                "startLine": 1,
+              },
             },
+            "ruleId": "invalid-todo-violation-rule",
+            "severity": "CRITICAL",
+            "type": "BUG",
           },
-        },
-      ],
-    });
+          {
+            "engineId": "ember-template-lint",
+            "primaryLocation": {
+              "filePath": "app/templates/application.hbs",
+              "message": "Todo violation passes \`no-bare-strings\` rule. Please run \`npx ember-template-lint app/templates/application.hbs --clean-todo\` to remove this todo from the todo list.",
+              "textRange": {
+                "startLine": 1,
+              },
+            },
+            "ruleId": "invalid-todo-violation-rule",
+            "severity": "CRITICAL",
+            "type": "BUG",
+          },
+        ],
+      }
+    `);
   });
 });

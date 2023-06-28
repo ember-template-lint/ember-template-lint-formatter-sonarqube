@@ -68,9 +68,7 @@ export = class SonarQubeFormatter {
           });
         }
       }
-    }
-
-    // eslint-disable-next-line unicorn/no-null
+    
     return JSON.stringify({ issues }, null, 2);
   }
 };
